@@ -1,37 +1,37 @@
 "myfloats.adebarbarin.com":
   "/v1":
     "/auth":
-      "/register"
-      "/login"
+      "/register"     # Done
+      "/login"        # Done
     "/users":
-      "/me"
-      "/update"
-      "/delete"
+      "/me"           # Done
+      "/update"       # Done
+      "/delete"       # Done
     "/accounts":
-      "/"
-      "/create"
+      "/" # GET       # Done
+      "/" # POST      # Done
       "/:id":
-        "/"
-        "/update"
-        "/delete"
+        "/" # GET     # Done
+        "/" # PATCH   # Done
+        "/" # DELETE  # Done
     "/transactions/:account_id":
-      "/"
-      "/create"
+      "/" # GET       # Done
+      "/" # POST      # Done
       "/:id":
-        "/"
-        "/update"
-        "/delete"
+        "/" # GET     # Done
+        "/" # PATCH   # Done
+        "/" # DELETE  # Done
     "/categories":
-      "/"
-      "/create"
+      "/" # GET       # Done
+      "/" # POST      # Done
       "/:id":
-        "/"
-        "/update"
-        "/delete"
+        "/" # GET     # Done
+        "/" # PATCH   # Done
+        "/" # DELETE  # Done
     "/entities":
-      "/"
-      "/create"
+      "/" # GET       # Done
+      "/" # POST      # Done
       "/:id":
-        "/"
-        "/update"
-        "/delete"
+        "/" # GET     # Done
+        "/" # PATCH   # Done
+        "/" # DELETE  # Done
