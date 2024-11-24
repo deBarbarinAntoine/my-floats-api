@@ -114,7 +114,7 @@ async signToken(userId: number, email: string): Promise<{ access_token: string }
         };
 
         const token = await this.jwt.signAsync(payload, {
-            expiresIn: '12h', // <- TOKEN'S TTL HERE
+            expiresIn: '30m', // <- TOKEN'S TTL HERE
             secret: this.config.get('JWT_SECRET'),
         });
 
@@ -167,7 +167,9 @@ Here is a list of endpoints with their subsequent methods:
             "/" # DELETE (delete entity)
 ```
 
-
+> Note that the transactions are taken into account when querying the `GET /accounts/:id/` route.
+> 
+> Also, the *Scheduled transactions* are verified every day at 02:30 AM and they generate new transactions with a new date and the `ONCE` frequency.
 
 All answers are in **`JSON`** format, having the result wrapped in a `data` object:
 

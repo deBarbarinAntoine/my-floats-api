@@ -56,6 +56,7 @@ export class ScheduledTransactionService {
 
         // Run the transactions that are due today
         for (const transaction of toExecute) {
+            // Creating a new transaction (application of the main one) executed now and with no frequency (the frequency is already in the main transaction from which it was created). We can think of it like this new transaction is only an instance of that scheduled transaction set at an earlier time.
             transaction.date = now;
             transaction.frequency = Frequency.ONCE;
             this.prisma.transaction.create({
