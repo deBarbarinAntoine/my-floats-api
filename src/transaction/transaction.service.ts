@@ -18,6 +18,7 @@ export class TransactionService {
         if (!this.isEntity(userId, dto.entityId) || !this.isCategory(userId, dto.categoryId)) {
             throw new UnprocessableEntityException('Invalid entity or category!');
         }
+        dto.amount = Math.abs(dto.amount);
         const newData = {
             accountId,
             ...dto,
@@ -53,6 +54,8 @@ export class TransactionService {
         if (!this.isEntity(userId, dto.entityId) || !this.isCategory(userId, dto.categoryId)) {
             throw new UnprocessableEntityException('Invalid entity or category!');
         }
+
+        dto.amount = Math.abs(dto.amount);
 
         const previousTransaction = await this.prisma.transaction.findUnique({ where: { accountId, id } });
 

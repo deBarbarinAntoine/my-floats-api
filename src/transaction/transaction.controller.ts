@@ -16,7 +16,9 @@ import { User } from '@prisma/client';
 import { GetUser } from '../auth/decorator';
 import { TransactionDto } from './dto/transaction.dto';
 import { TransactionGuard } from './guard/transaction.guard';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @UseGuards(TransactionGuard)
 @Controller('transactions/:accountId')
 export class TransactionController {

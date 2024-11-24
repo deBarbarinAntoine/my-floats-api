@@ -1,9 +1,11 @@
-import { Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { GetUser } from '../auth/decorator';
 import { User } from '@prisma/client';
 import { EntityDto } from './dto';
 import { EntityService } from './entity.service';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('entities')
 export class EntityController {
     constructor(private readonly entityService: EntityService) {}
@@ -18,7 +20,7 @@ export class EntityController {
     }
 
     @Post()
-    async create(@GetUser() user: User, dto: EntityDto) {
+    async create(@GetUser() user: User, @Body() dto: EntityDto) {
         const entity = await this.entityService.create(user.id, dto);
 
         return {
@@ -36,7 +38,7 @@ export class EntityController {
     }
 
     @Patch(':id')
-    async update(@GetUser() user: User, @Param('id', ParseIntPipe) id: number, dto: EntityDto) {
+    async update(@GetUser() user: User, @Param('id', ParseIntPipe) id: number, @Body() dto: EntityDto) {
         const entity = await this.entityService.update(user.id, id, dto);
 
         return {
