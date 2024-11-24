@@ -14,20 +14,20 @@ export class UserController {
         private userService: UserService,
     ) {}
 
-    @Get('me')
+    @Get()
     getMe(@GetUser() user: User) {
         return {
             data: user,
         };
     }
 
-    @Patch('update')
+    @Patch()
     async update(@GetUser() user: User, @Body() dto: UserDto) {
         const updatedUser = await this.userService.update(user.id, dto);
         return updatedUser;
     }
 
-    @Delete('delete')
+    @Delete()
     async delete(@GetUser() user: User) {
         await this.prisma.user.delete({ where: { id: user.id } });
         return {

@@ -4,9 +4,9 @@
       "/register"     # Done
       "/login"        # Done
     "/users":
-      "/me"           # Done
-      "/update"       # Done
-      "/delete"       # Done
+      "/" # GET       # Done
+      "/" # PATCH     # Done
+      "/" # DELETE    # Done
     "/accounts":
       "/" # GET       # Done
       "/" # POST      # Done
