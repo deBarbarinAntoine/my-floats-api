@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './category/category.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { APP_GUARD } from '@nestjs/core';
         ConfigModule.forRoot({
             isGlobal: true,
         }),
+        ScheduleModule.forRoot(),
         UserModule,
         AuthModule,
         PrismaModule,
