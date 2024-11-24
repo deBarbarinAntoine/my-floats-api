@@ -12,3 +12,120 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  username String
+  email String @unique
+  hash String
+
+  accounts Account[]
+  categories Category[]
+  entities Entity[]
+
+  @@map("users")
+}
+
+model Account {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  balance Float
+
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactions Transaction[]
+
+  @@map("accounts")
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date DateTime
+  amount Float
+  frequency Frequency @default(ONCE)
+  isExpense Boolean @default(true)
+
+  entityId Int
+  entity Entity @relation(fields: [entityId], references: [id], onDelete: NoAction)
+
+  categoryId Int
+  category Category @relation(fields: [categoryId], references: [id], onDelete: NoAction)
+
+  accountId Int
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@map("transactions")
+}
+
+enum Frequency {
+  ONCE /// No frequency
+  DAILY /// Every day at midnight
+  WEEKLY /// Every week on monday
+  MONTHLY /// Every month
+  BIMESTRIALLY /// Every two months
+  QUARTERLY /// Every three months
+  TRIANNUALLY /// Every four months
+  BIANNUALLY /// Every six months
+  ANNUALLY /// Every year
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  description String?
+  type Type @default(OTHER)
+
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  Transaction Transaction[]
+
+  @@map("categories")
+}
+
+enum Type {
+  HOUSING /// **Housing & Utilities**: Rent/Mortgage, Property Taxes, Utilities (Electricity, Gas, Water, Internet, Cable TV)
+  TRANSPORTATION /// **Transportation**: Car Payments, Car Insurance, Gas, Public Transportation, Parking, Tolls, Vehicle Maintenance
+  FOOD /// **Food**: Groceries, Restaurants, Dining Out
+  HEALTHCARE /// **Healthcare & Personal Care**: Health Insurance, Doctor Visits, Prescriptions, Dental Care, Vision Care, Haircuts, Toiletries, Clothing
+  ENTERTAINMENT /// **Entertainment**: Movies, TV, Music, Books, Video Games, Hobbies, Sports
+  CHILDREN /// **Children & Education**: Tuition, Books, Supplies, Tutoring, Childcare
+  GIFT /// **Gifts & Donations**: Gifts, Charitable Donations
+  SUBSCRIPTION /// **Subscriptions**: Streaming Services, Gym Memberships, Magazine Subscriptions
+  INSURANCE /// **Insurance**: Homeowners/Renters, Car, Health, Life
+  TAX /// **Taxes**: Income Tax, Property Tax, Sales Tax
+  BANK /// **Bank Fees**: Bank Fees, Late Fees, Processing Fees
+  OTHER /// **Other**: Miscellaneous Expenses
+
+  @@map("main_categories")
+}
+
+/// **Entity**: Source or destination of a transaction (might be a business or store, or simply a person)
+model Entity {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  description String?
+
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactions Transaction[]
+
+  @@map("entities")
+}
